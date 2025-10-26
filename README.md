@@ -48,9 +48,7 @@ This plugin requires the following software to be installed and running:
 
 ### Option 1: Install from Release
 1. Download the latest release from the [Releases](../../releases) page
-2. Extract the ZIP file to your Loupedeck plugins folder:
-   - Windows: `%LocalAppData%\Logi\LogiPluginService\Plugins\`
-3. Restart the Loupedeck service or reboot your computer
+2. Double click on the lplug4 and install it
 
 ### Option 2: Build from Source
 1. Clone this repository:
