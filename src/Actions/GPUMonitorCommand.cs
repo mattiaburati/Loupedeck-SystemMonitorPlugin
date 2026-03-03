@@ -99,7 +99,10 @@ namespace Loupedeck.PCMonitorPlugin
 
         protected override BitmapImage GetCommandImage(String actionParameter, PluginImageSize imageSize)
         {
-            using (var builder = new BitmapBuilder(imageSize))
+            PluginLog.Info($"GPUMonitor GetCommandImage called - imageSize: {imageSize}");
+
+            // Always use Width90 canvas - the Loupedeck SDK scales to actual device resolution.
+            using (var builder = new BitmapBuilder(PluginImageSize.Width90))
             {
                 builder.Clear(BitmapColor.Black);
 
@@ -108,7 +111,7 @@ namespace Loupedeck.PCMonitorPlugin
                 var valueColor = BitmapColor.White;
 
                 // Title
-                builder.DrawText("GPU", 0, 0, 90, 15, titleColor, TITLE_FONT_SIZE);
+                builder.DrawText("GPU", 0, 2, 90, 16, titleColor, TITLE_FONT_SIZE);
 
                 if (!this._isAvailable)
                 {
@@ -117,16 +120,16 @@ namespace Loupedeck.PCMonitorPlugin
                 }
 
                 // Load
-                builder.DrawText("L", 5, 18, 20, 22, labelColor, LABEL_FONT_SIZE);
-                builder.DrawText($"{this._gpuLoad:F1}%", 22, 18, 68, 22, valueColor, VALUE_FONT_SIZE);
+                builder.DrawText("L", 5, 20, 20, 20, labelColor, LABEL_FONT_SIZE);
+                builder.DrawText($"{this._gpuLoad:F0}%", 22, 20, 65, 20, valueColor, VALUE_FONT_SIZE);
 
                 // Temperature
-                builder.DrawText("T", 5, 40, 20, 22, labelColor, LABEL_FONT_SIZE);
-                builder.DrawText($"{this._gpuTemp:F1}°", 22, 40, 68, 22, valueColor, VALUE_FONT_SIZE);
+                builder.DrawText("T", 5, 42, 20, 20, labelColor, LABEL_FONT_SIZE);
+                builder.DrawText($"{this._gpuTemp:F0}°", 22, 42, 65, 20, valueColor, VALUE_FONT_SIZE);
 
                 // Power
-                builder.DrawText("P", 5, 62, 20, 22, labelColor, LABEL_FONT_SIZE);
-                builder.DrawText($"{this._gpuPower:F1}W", 22, 62, 68, 22, valueColor, VALUE_FONT_SIZE);
+                builder.DrawText("P", 5, 64, 20, 20, labelColor, LABEL_FONT_SIZE);
+                builder.DrawText($"{this._gpuPower:F0}W", 22, 64, 65, 20, valueColor, VALUE_FONT_SIZE);
 
                 return builder.ToImage();
             }
