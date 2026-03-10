@@ -73,7 +73,10 @@ namespace Loupedeck.PCMonitorPlugin
 
         protected override BitmapImage GetCommandImage(String actionParameter, PluginImageSize imageSize)
         {
-            using (var builder = new BitmapBuilder(imageSize))
+            PluginLog.Info($"MEMMonitor GetCommandImage called - imageSize: {imageSize}");
+
+            // Always use Width90 canvas - the Loupedeck SDK scales to actual device resolution.
+            using (var builder = new BitmapBuilder(PluginImageSize.Width90))
             {
                 builder.Clear(BitmapColor.Black);
 
@@ -81,11 +84,11 @@ namespace Loupedeck.PCMonitorPlugin
                 var valueColor = BitmapColor.White;
 
                 // Title
-                builder.DrawText("RAM", 0, 0, 90, 15, titleColor, TITLE_FONT_SIZE);
+                builder.DrawText("RAM", 0, 5, 90, 20, titleColor, TITLE_FONT_SIZE);
 
                 if (!this._isAvailable)
                 {
-                    builder.DrawText("N/A", 0, 32, 90, 30, new BitmapColor(100, 100, 100), 14);
+                    builder.DrawText("N/A", 0, 35, 90, 30, new BitmapColor(100, 100, 100), 14);
                     return builder.ToImage();
                 }
 
@@ -101,7 +104,7 @@ namespace Loupedeck.PCMonitorPlugin
                     valueText = $"{this._ramUsage:F0} {this._unit}";
                 }
 
-                builder.DrawText(valueText, 0, 30, 90, 30, valueColor, VALUE_FONT_SIZE);
+                builder.DrawText(valueText, 0, 35, 90, 30, valueColor, VALUE_FONT_SIZE);
 
                 return builder.ToImage();
             }

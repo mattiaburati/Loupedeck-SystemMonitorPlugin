@@ -113,7 +113,10 @@ namespace Loupedeck.PCMonitorPlugin
 
         protected override BitmapImage GetCommandImage(String actionParameter, PluginImageSize imageSize)
         {
-            using (var builder = new BitmapBuilder(imageSize))
+            PluginLog.Info($"FPSDisplay GetCommandImage called - imageSize: {imageSize}");
+
+            // Always use Width90 canvas - the Loupedeck SDK scales to actual device resolution.
+            using (var builder = new BitmapBuilder(PluginImageSize.Width90))
             {
                 builder.Clear(BitmapColor.Black);
 
@@ -121,16 +124,16 @@ namespace Loupedeck.PCMonitorPlugin
                 var valueColor = BitmapColor.White;
 
                 // Title
-                builder.DrawText("FPS", 0, 0, 90, 15, titleColor, TITLE_FONT_SIZE);
+                builder.DrawText("FPS", 0, 5, 90, 20, titleColor, TITLE_FONT_SIZE);
 
                 if (!this._isAvailable)
                 {
-                    builder.DrawText("N/A", 0, 32, 90, 30, new BitmapColor(100, 100, 100), 14);
+                    builder.DrawText("N/A", 0, 35, 90, 30, new BitmapColor(100, 100, 100), 14);
                     return builder.ToImage();
                 }
 
                 // FPS Value - centered
-                builder.DrawText($"{this._currentFps:F0}", 0, 30, 90, 30, valueColor, VALUE_FONT_SIZE);
+                builder.DrawText($"{this._currentFps:F0}", 0, 35, 90, 30, valueColor, VALUE_FONT_SIZE);
 
                 return builder.ToImage();
             }
